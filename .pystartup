@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+import readline
+import rlcompleter
+import os
+import atexit
+# enable history
+historyPath = os.path.expanduser("~/.pyhistory")
+def save_history(historyPath=historyPath):
+    import readline
+    readline.write_history_file(historyPath)
+
+if os.path.exists(historyPath):
+    readline.read_history_file(historyPath)
+
+atexit.register(save_history)
+
+# enable tab completion
+if 'libedit' in readline.__doc__:
+    readline.parse_and_bind("bind ^I rl_complete")
+else:
+    readline.parse_and_bind("tab: complete")
+
+# Cleanup after ourselves. We could probaly also use locals() to capture 
+# the state before and after we do our work, not sure if that's less performant
+del(readline)
+del(rlcompleter)
+del(os)
+del(historyPath)
+del(save_history)
+del(atexit)
+
