@@ -144,6 +144,7 @@ set shiftwidth=4
 "set softtabstop=4
 set tabstop=4
 autocmd BufEnter *.js set shiftwidth=2
+autocmd BufEnter *.yml set shiftwidth=2
 autocmd BufEnter *.html set shiftwidth=2
 autocmd BufEnter *.css set shiftwidth=2
 
