@@ -1,0 +1,88 @@
+{
+    "telemetry.enableTelemetry": false,
+
+    "window.titleBarStyle": "native",
+    "workbench.editor.showTabs": false,
+    "workbench.editor.swipeToNavigate": true,
+    "editor.lineNumbers": "relative",
+    "editor.rulers": [79, 120],
+    "editor.autoClosingBrackets" : false,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "[json]": {
+        "editor.tabSize": 2
+    },
+
+    "debug.inlineValues": false,
+
+    // Python environment defaults
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    // The pythonpath should be overridden by the launch config in the workspace
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3",
+    "python.venvPath": "~/envs",
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.pyTestEnabled": true,
+    //"python.unitTest.pyTestPath": "pytest",
+    "python.unitTest.nosetestsEnabled": false,
+    "autoDocstring.docstringFormat": "sphinx",
+
+    // Modes: normal, insert, replace, visual, visualline, and visualblock
+    // Cursors: line, block, underline, line-thin, block-outline, and underline-thin
+    "vim.cursorStylePerMode" : {
+        "normal": "block",
+        "insert": "line-thin",
+        "replace": "block-outline"
+    },
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/*~": true,
+        "**/*.pyc": true,
+        "*.egg-info": true,
+        "**/.flake8": true,
+        ".coverage": true,
+        "**/__pycache__": true
+    },
+
+    "files.associations": {
+        "cloudformation.template": "yaml",
+    },
+
+    "launch": {
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "pix-service",
+                "type": "python",
+                "request": "launch",
+                "stopOnEntry": false,
+                "pythonPath": "~/envs/${workspaceFolderBasename}/bin/python",
+                //"pythonPath": "${config:python.pythonPath}",
+                "program": "${workspaceFolder}/src/service.py",
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PIXSVC_HTTP_PORT": 8060,
+
+                },
+                "debugOptions": [
+                    "RedirectOutput"
+                ]
+            }
+        ]
+    },
+
+    "git.autofetch": true,
+    "git.defaultCloneDirectory": "~/Projects",
+    "git.promptToSaveFilesBeforeCommit": true
+}
