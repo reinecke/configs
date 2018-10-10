@@ -1,31 +1,45 @@
 #!/usr/bin/env python
+import atexit
+import os
 import readline
 import rlcompleter
-import os
-import atexit
-# enable history
-historyPath = os.path.expanduser("~/.pyhistory")
-def save_history(historyPath=historyPath):
-    import readline
-    readline.write_history_file(historyPath)
 
-if os.path.exists(historyPath):
-    readline.read_history_file(historyPath)
+HISTORY_PATH = os.path.expanduser("~/.pyhistory")
 
-atexit.register(save_history)
 
-# enable tab completion
-if 'libedit' in readline.__doc__:
-    readline.parse_and_bind("bind ^I rl_complete")
-else:
-    readline.parse_and_bind("tab: complete")
+def setup_tab_completion():
+    if 'libedit' in readline.__doc__:
+        readline.parse_and_bind("bind ^I rl_complete")
+    else:
+        readline.parse_and_bind("tab: complete")
 
-# Cleanup after ourselves. We could probaly also use locals() to capture 
+
+def setup_history(history_path):
+    # Attempt to load the history file
+    if os.path.exists(history_path):
+        try:
+            readline.read_history_file(history_path)
+        except Exception:
+            pass
+
+    # Register history save on exit
+    def save_history():
+        import readline
+        readline.write_history_file(history_path)
+
+    atexit.register(save_history)
+
+
+# run them
+setup_tab_completion()
+setup_history(HISTORY_PATH)
+
+# Cleanup after ourselves. We could probaly also use locals() to capture
 # the state before and after we do our work, not sure if that's less performant
+del(setup_tab_completion)
+del(setup_history)
+del(HISTORY_PATH)
+del(atexit)
+del(os)
 del(readline)
 del(rlcompleter)
-del(os)
-del(historyPath)
-del(save_history)
-del(atexit)
-
