@@ -91,8 +91,8 @@ set nocompatible
 
 set encoding=utf-8
 
-" use eric colorscheme
-colorscheme eric
+" use cgpro colorscheme
+colorscheme cgpro
 
 " I heart 80 columns
 if exists('+colorcolumn')
