@@ -21,8 +21,11 @@ ln -s Projects/configs/.bashrc .bashrc
 ln -s Projects/configs/.bash_profile .bash_profile
 
 # -- git
+ln -s Projects/configs/.gitignore_global .gitignore_global
 git config --global user.name "Eric Reinecke"
 git config --global user.email reinecke.eric@gmail.com
+git config --global core.excludesfile ~/.gitignore_global
+git config --global alias.co checkout
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
 
 # -- Homebrew
@@ -38,6 +41,12 @@ mkdir -p ~/.vim/colors
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 curl https://raw.githubusercontent.com/reinecke/vim-cgpro/master/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
 
+# -- vscode
+mkdir -p "${HOME}/Library/Application Support/Code"
+pushd "${HOME}/Library/Application Support/Code"
+ln -s "${HOME}/Projects/configs/Code" User
+popd
+
 # -- python
 brew install readline
 ln -s Projects/configs/.inputrc .inputrc
@@ -46,5 +55,8 @@ pip3 install virtualenvwrapper
 
 # -- mac dev
 brew install carthage
+
+# -- assorted dev
+brew install jq httpie, grip
 
 popd
