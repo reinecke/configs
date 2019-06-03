@@ -45,13 +45,6 @@ Plugin 'heavenshell/vim-pydocstring'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'martinda/Jenkinsfile-vim-syntax'
 
-" Snipmate
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
-
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -79,7 +72,6 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-"########## EREINECKE SETTINGS
 " snag python scripts
 "python << EOF
 "try:
@@ -107,9 +99,12 @@ au BufNewFile,BufRead *rc set ft=tcsh
 au BufNewFile,BufRead .vimrc set ft=vim
 au BufNewFile,BufRead *.sl set ft=sl
 au BufNewFile,BufRead cloudformation.template set ft=yaml
-au BufNewFile,BufRead *.json set ft=javascript
-au BufNewFile,BufRead *.otio set ft=javascript
+au BufNewFile,BufRead *.json set ft=json
+au BufNewFile,BufRead *.otio set ft=json
+au BufNewFile,BufRead *.anaconda set ft=json
 au BufNewFile,BufRead *.mpd set ft=xml
+
+" ==== BEGIN PLUGIN SETTINGS ====
 
 " Use NerdTree when opening a dir
 autocmd StdinReadPre * let s:std_in=1
@@ -117,9 +112,22 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " autoquit vim if the last buffer is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" Snipmate
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+
+" Syntastic
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+let g:syntastic_python_checkers = ['flake8']
+
 " Pydocstring custom templates
 let g:pydocstring_templates_dir = $HOME . '/.vim/template/pydocstring'
 let g:pydocstring_enable_mapping = 0
+"
+" ==== END PLUGIN SETTINGS ====
 
 " @{
 " Python hot keys.
@@ -135,6 +143,10 @@ ounmap ;PH
 map ;br :BikeRename<cr>
 map ;be :BikeExtract<cr>
 " @}
+
+" Remap some filetypes
+au BufRead,BufNewFile *.vpy setfiletype python
+
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
@@ -206,8 +218,6 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
-"########## END EREINECKE SETTINGS
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
