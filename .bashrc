@@ -7,6 +7,11 @@ alias weather="curl wttr.in/oakland"
 # Set prompt
 export PS1="[\u@\h:\[\e[1;34m\]\w\[\e[m\]]\$ "
 
+# Allow setting window title in iTerm
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
+
 export EDITOR=vim
 
 # Designate a python startup file
@@ -37,3 +42,8 @@ source `which virtualenvwrapper.sh`
 
 alias mkenv=mkvirtualenv
 alias rmenv=rmvirtualenv
+
+if [ -f "${HOME}/.sitebashrc" ]
+then
+    source "${HOME}/.sitebashrc"
+fi

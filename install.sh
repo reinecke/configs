@@ -37,8 +37,9 @@ ln -s Projects/configs/.vimrc .vimrc
 mkdir -p ~/.vim/bundle
 mkdir -p ~/.vim/colors
 
-# vundle, colors
+# Bootstrap vundle and install plugins, colors
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
 curl https://raw.githubusercontent.com/reinecke/vim-cgpro/master/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
 
 # -- vscode
@@ -58,5 +59,9 @@ brew install carthage
 
 # -- assorted dev
 brew install jq httpie, grip
+
+# -- iTerm
+curl -L https://iterm2.com/shell_integration/bash -o "${HOME}/.iterm2_shell_integration.bash"
+# TODO: Figure out how to setup custom dir
 
 popd
