@@ -26,11 +26,9 @@ alias browse='[[ "$#" -eq 2 ]] && a="$2" || a="./";open /System/Library/CoreServ
 
 export PATH="${HOME}/bin:${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-
-# Setting PATH for Python 3.7
-# The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
-export PATH
+# shortcut json formatting
+alias jlint="pbpaste|jq .|pbcopy"
+alias prettypy='python3 -c "import json;import sys;print(json.dumps(eval(sys.stdin.read()), indent=2))"'
 
 # add virtualenv helpers
 #source envman.sh

@@ -19,14 +19,17 @@ defaults write com.apple.Terminal "Startup Window Settings" -string Homebrew
 defaults write com.apple.Terminal "Default Window Settings" -string Homebrew
 ln -s Projects/configs/.bashrc .bashrc
 ln -s Projects/configs/.bash_profile .bash_profile
+ln -s Projects/configs/.zshrc .zshrc
+mkdir -p .zsh
 
 # -- git
 ln -s Projects/configs/.gitignore_global .gitignore_global
 git config --global user.name "Eric Reinecke"
-git config --global user.email reinecke.eric@gmail.com
+git config --global user.email ereinecke@netflix.com
 git config --global core.excludesfile ~/.gitignore_global
 git config --global alias.co checkout
 curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
+curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh > .zsh/_git
 
 # -- Homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -40,7 +43,7 @@ mkdir -p ~/.vim/colors
 # Bootstrap vundle and install plugins, colors
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
-curl https://raw.githubusercontent.com/reinecke/vim-cgpro/master/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
+curl https://raw.githubusercontent.com/reinecke/vim-cgpro/main/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
 
 # -- vscode
 mkdir -p "${HOME}/Library/Application Support/Code"
@@ -55,7 +58,7 @@ ln -s Projects/configs/.pystartup .pystartup
 pip3 install virtualenvwrapper
 
 # -- mac dev
-brew install carthage
+#brew install carthage
 
 # -- assorted dev
 brew install jq httpie, grip

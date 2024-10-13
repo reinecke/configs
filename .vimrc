@@ -3,6 +3,10 @@
 " Useful tidbits:
 "  https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
 
+" TODO: add hotkey for
+" :set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+" :set list
+
 " ==== BEGIN VUNDLE ====
 
 set nocompatible              " be iMproved, required
@@ -44,6 +48,9 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'JamshedVesuna/vim-markdown-preview'
 Plugin 'martinda/Jenkinsfile-vim-syntax'
+Plugin 'tpope/vim-commentary.git'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'junegunn/vim-peekaboo'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -61,7 +68,6 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 " ==== END VUNDLE ====
-
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -83,6 +89,9 @@ set nocompatible
 
 set encoding=utf-8
 
+" Keep the window the same size when scaling text
+set guioptions+=k
+
 " use cgpro colorscheme
 colorscheme cgpro
 
@@ -93,7 +102,6 @@ else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 endif
 
-
 " Custom Sytax highlights
 au BufNewFile,BufRead *rc set ft=tcsh
 au BufNewFile,BufRead .vimrc set ft=vim
@@ -102,7 +110,9 @@ au BufNewFile,BufRead cloudformation.template set ft=yaml
 au BufNewFile,BufRead *.json set ft=json
 au BufNewFile,BufRead *.otio set ft=json
 au BufNewFile,BufRead *.anaconda set ft=json
+au BufNewFile,BufRead *.swb set ft=json
 au BufNewFile,BufRead *.mpd set ft=xml
+au BufNewFile,BufRead *.amf set ft=xml
 
 " ==== BEGIN PLUGIN SETTINGS ====
 
@@ -111,6 +121,8 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 " autoquit vim if the last buffer is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" omit some files from NERDTree
+let NERDTreeIgnore = ['\.pyc$', '\~$']
 
 " Snipmate
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -119,6 +131,12 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 
 " Syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_python_checkers = ['flake8']
@@ -147,6 +165,9 @@ map ;be :BikeExtract<cr>
 " Remap some filetypes
 au BufRead,BufNewFile *.vpy setfiletype python
 
+
+" opt-in to the new snipmate parser (:h SnipMate-deprecate for more info)
+let g:snipMate = { 'snippet_version' : 1 }
 
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
