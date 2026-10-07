@@ -19,6 +19,7 @@ defaults write com.apple.Terminal "Startup Window Settings" -string Homebrew
 defaults write com.apple.Terminal "Default Window Settings" -string Homebrew
 ln -s Projects/configs/.bashrc .bashrc
 ln -s Projects/configs/.bash_profile .bash_profile
+ln -s Projects/configs/.zshrc .zshrc
 
 # -- git
 ln -s Projects/configs/.gitignore_global .gitignore_global
@@ -41,12 +42,6 @@ mkdir -p ~/.vim/colors
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 curl https://raw.githubusercontent.com/reinecke/vim-cgpro/master/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
-
-# -- vscode
-mkdir -p "${HOME}/Library/Application Support/Code"
-pushd "${HOME}/Library/Application Support/Code"
-ln -s "${HOME}/Projects/configs/Code" User
-popd
 
 # -- python
 brew install readline
