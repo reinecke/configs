@@ -1,0 +1,7 @@
+[user]
+	name = Eric Reinecke
+[core]
+	excludesFile = ~/.gitignore_global
+	autocrlf = input
+[alias]
+	co = checkout

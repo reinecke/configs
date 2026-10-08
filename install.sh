@@ -9,6 +9,7 @@ read -p "Ready to install? (y/N): " ready
 if [ $ready != "y" ]
 then
     echo "please install requirements and run again"
+    exit 1
 fi
 
 pushd ~
@@ -24,15 +25,40 @@ mkdir -p .zsh
 
 # -- git
 ln -s Projects/configs/.gitignore_global .gitignore_global
-git config --global user.name "Eric Reinecke"
-git config --global user.email ereinecke@netflix.com
-git config --global core.excludesfile ~/.gitignore_global
-git config --global alias.co checkout
-curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > ~/.git-completion.bash
-curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh > .zsh/_git
+
+# Keep ~/.gitconfig writable for tools that manage it, and load shared
+# settings before machine-specific settings so the latter can override them.
+for config_file in "$HOME/Projects/configs/.gitconfig" "$HOME/.gitconfig.local"; do
+    if ! git config --global --get-all include.path | grep -Fxq "$config_file"; then
+        printf '\n[include]\n\tpath = %s\n' "$config_file" >> "$HOME/.gitconfig"
+    fi
+done
+
+if [[ -z "$(git config --global --includes --get user.email)" ]]; then
+    read -r -p "Git user email (leave blank to skip): " git_user_email
+    if [[ -n "$git_user_email" ]]; then
+        git config --file "$HOME/.gitconfig.local" user.email "$git_user_email"
+    fi
+fi
+
+install_git_completion() {
+    local url="$1" target="$2" temporary_file
+    temporary_file=$(mktemp "${target}.XXXXXX") || return 1
+    if ! curl -fsSL "$url" -o "$temporary_file" || ! mv "$temporary_file" "$target"; then
+        rm -f "$temporary_file"
+        return 1
+    fi
+}
+
+install_git_completion \
+    https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
+    "$HOME/.git-completion.bash" || exit 1
+install_git_completion \
+    https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh \
+    "$HOME/.zsh/_git" || exit 1
 
 # -- Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # -- vim
 brew install macvim
@@ -45,23 +71,16 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 curl https://raw.githubusercontent.com/reinecke/vim-cgpro/main/colors/cgpro.vim > ~/.vim/colors/cgpro.vim
 
-# -- vscode
-mkdir -p "${HOME}/Library/Application Support/Code"
-pushd "${HOME}/Library/Application Support/Code"
-ln -s "${HOME}/Projects/configs/Code" User
-popd
-
 # -- python
 brew install readline
 ln -s Projects/configs/.inputrc .inputrc
 ln -s Projects/configs/.pystartup .pystartup
-pip3 install virtualenvwrapper
 
 # -- mac dev
 #brew install carthage
 
 # -- assorted dev
-brew install jq httpie, grip
+brew install jq httpie grip
 
 # -- iTerm
 curl -L https://iterm2.com/shell_integration/bash -o "${HOME}/.iterm2_shell_integration.bash"

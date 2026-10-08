@@ -109,6 +109,7 @@ au BufNewFile,BufRead *.sl set ft=sl
 au BufNewFile,BufRead cloudformation.template set ft=yaml
 au BufNewFile,BufRead *.json set ft=json
 au BufNewFile,BufRead *.otio set ft=json
+au BufNewFile,BufRead *.fdl set ft=json
 au BufNewFile,BufRead *.anaconda set ft=json
 au BufNewFile,BufRead *.swb set ft=json
 au BufNewFile,BufRead *.mpd set ft=xml
@@ -123,6 +124,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " omit some files from NERDTree
 let NERDTreeIgnore = ['\.pyc$', '\~$']
+let NERDTreeShowHidden = 1
 
 " Snipmate
 Plugin 'MarcWeber/vim-addon-mw-utils'

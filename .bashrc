@@ -17,14 +17,16 @@ export EDITOR=vim
 # Designate a python startup file
 export PYTHONSTARTUP=$HOME/.pystartup
 
-# git completions!
-source ~/.git-completion.bash
+# Git completions, when installed by install.sh.
+if [ -f "$HOME/.git-completion.bash" ]; then
+    source "$HOME/.git-completion.bash"
+fi
 #source ~/Projects/third-party/git/contrib/completion/git-prompt.sh
 
 #alias browse='open /System/Library/CoreServices/Finder.app ./'
 alias browse='[[ "$#" -eq 2 ]] && a="$2" || a="./";open /System/Library/CoreServices/Finder.app "$a"'
 
-export PATH="${HOME}/bin:${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+PATH="${HOME}/bin:${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # shortcut json formatting
 alias jlint="pbpaste|jq .|pbcopy"
@@ -33,7 +35,7 @@ alias prettypy='python3 -c "import json;import sys;print(json.dumps(eval(sys.std
 # add virtualenv helpers
 #source envman.sh
 VIRTUALENVWRAPPER_PYTHON=python3
-export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='-p python3.7'
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='-p python3'
 export WORKON_HOME=~/envs
 export PROJECT_HOME=~/Projects
 source `which virtualenvwrapper.sh`
@@ -45,3 +47,5 @@ if [ -f "${HOME}/.sitebashrc" ]
 then
     source "${HOME}/.sitebashrc"
 fi
+
+export PATH="$PATH:$HOME/.local/bin"
